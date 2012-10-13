@@ -29,12 +29,12 @@ class BarcodeService{
         switch ($type){
             case $type == 'qr':
                 include_once __DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."Resources".DIRECTORY_SEPARATOR."phpqrcode".DIRECTORY_SEPARATOR."qrlib.php";
-                \QRcode::png($text, $file);
+                \QRcode::png($text, $file, QR_ECLEVEL_L, 12);
             break;
             case is_numeric($type):
                 $type = $this->types[$type];
             default:
-                $barcodeOptions = array('text' => $text);
+                $barcodeOptions = array('text' => $text,  'factor'=>3, 'font' => __DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."Resources".DIRECTORY_SEPARATOR."fonts".DIRECTORY_SEPARATOR.'Lato-Regular.ttf');
                 $rendererOptions = array();
                 $image = new Image(
                     $imageResource = Barcode::factory(
