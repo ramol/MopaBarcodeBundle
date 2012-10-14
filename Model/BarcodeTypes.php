@@ -25,7 +25,7 @@ class BarcodeTypes{
         15 => "royalmail",
         16 => "upca",
         17 => "upce",
-        'qr' => "qr",
+        99 => "qr",
     );
     public static function getTypes(){
         return self::$types;

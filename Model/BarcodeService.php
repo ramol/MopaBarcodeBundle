@@ -27,7 +27,7 @@ class BarcodeService{
     public function saveAs($type, $text, $file){
         @unlink($file);
         switch ($type){
-            case $type == 'qr':
+            case $type == 99:
                 include_once __DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."Resources".DIRECTORY_SEPARATOR."phpqrcode".DIRECTORY_SEPARATOR."qrlib.php";
                 \QRcode::png($text, $file, QR_ECLEVEL_L, 12);
             break;

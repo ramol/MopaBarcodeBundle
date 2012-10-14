@@ -14,7 +14,7 @@
             <argument type="service" id="imagine" />
             <argument>%kernel.cache_dir%</argument>
             <argument>%kernel.root_dir%</argument>
-            <argument>media/cache/barcodes/</argument>
+            <argument>images/cache/barcodes/</argument>
             <argument>%imagine.web_root%</argument>
             <argument type="service" id="logger" />
             <tag name="monolog.logger" channel="mopa_barcode" />
