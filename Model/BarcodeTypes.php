@@ -25,6 +25,7 @@ class BarcodeTypes{
         15 => "royalmail",
         16 => "upca",
         17 => "upce",
+        90 => "plainsequence",
         99 => "qr",
     );
     public static function getTypes(){

@@ -25,11 +25,32 @@ class BarcodeService{
         $this->logger = $logger;
     }
     public function saveAs($type, $text, $file){
+        $fontfile = __DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."Resources".DIRECTORY_SEPARATOR."fonts".DIRECTORY_SEPARATOR.'Lato-Regular.ttf';
         @unlink($file);
         switch ($type){
             case $type == 99:
                 include_once __DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."Resources".DIRECTORY_SEPARATOR."phpqrcode".DIRECTORY_SEPARATOR."qrlib.php";
                 \QRcode::png($text, $file, QR_ECLEVEL_L, 12);
+            break;
+            case $type == 90:
+                
+                $font = new \Imagine\Gd\Font($fontfile, 35, new \Imagine\Image\Color('fff', 100));
+                $resource = imagecreatetruecolor(2000, 60);                
+                $color = new \Imagine\Image\Color('fff');
+                $white = imagecolorallocate($resource, 255, 255, 255);
+                $black = imagecolorallocate($resource, 0, 0, 0);
+                
+                if (false === $white) {
+                    throw new RuntimeException('Unable to allocate color');
+                }
+
+                if (false === imagefill($resource, 0, 0, $white)) {
+                    throw new RuntimeException('Could not set background color fill');
+                }                
+                imagettftext($resource, 35, 0, 10, 50, $black, $fontfile, $text);
+                $image = new Image($resource);
+                $image->crop(new \Imagine\Image\Point(0,0), new \Imagine\Image\Box(20+$font->box($text)->getWidth(),60));
+                $image->save($file);                
             break;
             case is_numeric($type):
                 $type = $this->types[$type];
