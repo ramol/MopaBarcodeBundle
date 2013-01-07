@@ -5,6 +5,7 @@ use Monolog\Logger;
 use Imagine\Gd\Image;
 use Imagine\Image\ImagineInterface;
 use Zend\Barcode\Barcode;
+use Zend\Validator\Barcode as BarcodeValidator;
 
 class BarcodeService{
     private $types;
@@ -55,6 +56,15 @@ class BarcodeService{
             case is_numeric($type):
                 $type = $this->types[$type];
             default:
+                $validator = new BarcodeValidator(array(
+                    'adapter'  => $type,
+                    'usechecksum' => false,
+                ));
+                if (!$validator->isValid($text)) {
+                    $message = implode("\n", $validator->getMessages());
+                    throw new \Symfony\Component\HttpKernel\Exception\HttpException(400, $message, null);
+                }                
+
                 $barcodeOptions = array('text' => $text,  'factor'=>3, 'font' => __DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."Resources".DIRECTORY_SEPARATOR."fonts".DIRECTORY_SEPARATOR.'Lato-Regular.ttf');
                 $rendererOptions = array();
                 $image = new Image(
